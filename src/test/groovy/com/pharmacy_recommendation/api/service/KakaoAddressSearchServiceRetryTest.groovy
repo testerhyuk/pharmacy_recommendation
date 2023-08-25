@@ -60,7 +60,6 @@ class KakaoAddressSearchServiceRetryTest extends AbstractIntegrationContainerBas
         kakaoApiResult.getDocumentDtoList().size() == 1
         kakaoApiResult.getMetaDto().totalCount == 1
         kakaoApiResult.getDocumentDtoList().get(0).getAddressName() == inputAddress
-
     }
 
 
