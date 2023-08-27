@@ -1,7 +1,7 @@
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.6.7'
-	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.14.RELEASE'
 	id 'groovy'
 }
 
@@ -31,6 +31,9 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+	// redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
 	// spock
 	testImplementation 'org.spockframework:spock-core:2.1-groovy-3.0'
 	testImplementation 'org.spockframework:spock-spring:2.1-groovy-3.0'
@@ -49,6 +52,9 @@ dependencies {
 
 	// handlebars
 	implementation 'pl.allegro.tech.boot:handlebars-spring-boot-starter:0.3.4'
+
+	// base62
+	implementation 'io.seruco.encoding:base62:0.1.3'
 }
 
 bootJar {
@@ -57,4 +63,13 @@ bootJar {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+// ./gradlew clean build -PKAKAO_REST_API_KEY={api key} 명령어로 전체 테스트 및 빌드하여 jar 파일 생성
+processTestResources {
+	boolean hasProperty = project.hasProperty("KAKAO_REST_API_KEY")
+	System.out.println("Set kakao rest api key: $hasProperty")
+	filesMatching('**/application.yml') {
+		expand(project.properties)
+	}
 }
